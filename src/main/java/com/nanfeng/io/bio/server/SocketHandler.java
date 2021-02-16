@@ -1,6 +1,6 @@
 package com.nanfeng.io.bio.server;
 
-import com.nanfeng.io.bio.common.dto.BioMessage;
+import com.nanfeng.io.common.IoMessage;
 import com.nanfeng.io.bio.common.util.BioMessageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -41,18 +41,18 @@ public class SocketHandler implements Runnable {
 
     private void readMsg(Socket socket) throws IOException {
         InputStream inputStream = socket.getInputStream();
-        BioMessage bioMessage = BioMessageUtils.readMessage(inputStream);
+        IoMessage ioMessage = BioMessageUtils.readMessage(inputStream);
 
-        String host = bioMessage.getHeader().getHost();
-        Integer port = bioMessage.getHeader().getPort();
-        String nickName = bioMessage.getHeader().getNickName();
+        String host = ioMessage.getHeader().getHost();
+        Integer port = ioMessage.getHeader().getPort();
+        String nickName = ioMessage.getHeader().getNickName();
         log.info("[SocketHandler] Receive Message From host: {}, port: {}, user: {}", host, port, nickName);
-        log.info("[SocketHandler] Message: {}", bioMessage);
+        log.info("[SocketHandler] Message: {}", ioMessage);
 
-        dispatchToAllClients(socket, bioMessage);
+        dispatchToAllClients(socket, ioMessage);
     }
 
-    private void dispatchToAllClients(Socket socket, BioMessage message) throws IOException {
+    private void dispatchToAllClients(Socket socket, IoMessage message) throws IOException {
         String content = message.getContent();
 
         if (StringUtils.isEmpty(content)) {

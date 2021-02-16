@@ -1,4 +1,4 @@
-package com.nanfeng.io.bio.common.dto;
+package com.nanfeng.io.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BioMessageHeader implements Serializable {
+public class IoMessageHeader implements Serializable {
 
     /**
      * 消息源地址

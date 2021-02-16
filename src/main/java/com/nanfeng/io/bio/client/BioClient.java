@@ -1,14 +1,12 @@
 package com.nanfeng.io.bio.client;
 
-import com.nanfeng.io.bio.common.dto.BioMessage;
-import com.nanfeng.io.bio.common.dto.BioMessageHeader;
 import com.nanfeng.io.bio.common.util.BioMessageUtils;
+import com.nanfeng.io.common.IoMessage;
+import com.nanfeng.io.common.IoMessageHeader;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -19,12 +17,12 @@ import java.net.Socket;
 @Slf4j
 public class BioClient {
 
-    private final BioMessageHeader header;
+    private final IoMessageHeader header;
     private final Socket socket;
 
     public BioClient(String host, int port, String nickName) throws IOException {
         this.socket = new Socket(host, port);
-        this.header = new BioMessageHeader(host, port, nickName);
+        this.header = new IoMessageHeader(host, port, nickName);
     }
 
     public static void main(String[] args) throws IOException {
@@ -54,7 +52,7 @@ public class BioClient {
                 break;
             }
 
-            BioMessage message = new BioMessage(header, line);
+            IoMessage message = new IoMessage(header, line);
             BioMessageUtils.sendMessage(socket.getOutputStream(), message);
         }
     }
@@ -63,7 +61,7 @@ public class BioClient {
         while (true) {
             ObjectInputStream ois = new ObjectInputStream(this.socket.getInputStream());
             try {
-                BioMessage message = (BioMessage) ois.readObject();
+                IoMessage message = (IoMessage) ois.readObject();
                 System.out.println(String.format("%s Said: %s", message.getHeader().getNickName(), message.getContent()));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

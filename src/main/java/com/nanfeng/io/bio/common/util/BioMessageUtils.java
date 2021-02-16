@@ -1,9 +1,8 @@
 package com.nanfeng.io.bio.common.util;
 
 import com.nanfeng.io.bio.common.BioException;
-import com.nanfeng.io.bio.common.dto.BioMessage;
-import com.nanfeng.io.bio.common.dto.BioMessageHeader;
-import org.apache.commons.lang3.StringUtils;
+import com.nanfeng.io.common.IoMessage;
+import com.nanfeng.io.common.IoMessageHeader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,14 +16,14 @@ import java.util.Objects;
  */
 public class BioMessageUtils {
 
-    public static BioMessage readMessage(InputStream inputStream) throws IOException {
+    public static IoMessage readMessage(InputStream inputStream) throws IOException {
         if (Objects.isNull(inputStream)) {
             throw new BioException("Can Not Read Message Of Null !!!");
         }
 
         ObjectInputStream ois = new ObjectInputStream(inputStream);
         try {
-            return (BioMessage) ois.readObject();
+            return (IoMessage) ois.readObject();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -32,12 +31,12 @@ public class BioMessageUtils {
         throw new BioException("Can Not Read Message");
     }
 
-    public static void sendMessage(OutputStream outputStream, BioMessageHeader header, String content) throws IOException {
+    public static void sendMessage(OutputStream outputStream, IoMessageHeader header, String content) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(outputStream);
-        oos.writeObject(new BioMessage(header, content));
+        oos.writeObject(new IoMessage(header, content));
     }
 
-    public static void sendMessage(OutputStream outputStream, BioMessage message) throws IOException {
+    public static void sendMessage(OutputStream outputStream, IoMessage message) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(outputStream);
         oos.writeObject(message);
     }
