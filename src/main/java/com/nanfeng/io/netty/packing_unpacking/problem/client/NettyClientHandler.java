@@ -23,8 +23,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         for (int i = 0; i < 100; i++) {
-            byte[] bytes = ("QUERY TIME ORDER" + i + System.getProperty("line.separator")).getBytes(StandardCharsets.UTF_8);
-            ByteBuf msg = Unpooled.copiedBuffer(bytes);
+            ByteBuf msg = Unpooled.copiedBuffer(req);
             ctx.writeAndFlush(msg);
         }
     }

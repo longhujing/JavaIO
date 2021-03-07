@@ -24,7 +24,6 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         log.info("Read From Client: {}, counter: {}", message, ++counter);
 
         String resp = "QUERY TIME ORDER".equalsIgnoreCase(message) ? LocalDateTime.now().toString() : "BAD REQUEST";
-//        log.info("Server Response Is: {}", resp);
         ByteBuf response = Unpooled.copiedBuffer((resp + System.getProperty("line.separator")).getBytes(StandardCharsets.UTF_8));
         ctx.writeAndFlush(response);
     }
